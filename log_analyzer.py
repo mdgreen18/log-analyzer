@@ -1,5 +1,6 @@
 import os
 import json
+import argparse
 from collections import Counter
 
 def read_log_file(file_path):
@@ -22,7 +23,7 @@ def analyze_logs(lines):
 
     # Extract just the error messages (after "ERROR ")
     error_messages = [
-        line.split("ERROR")[1].strip()
+        line.split("ERROR", 1)[1].strip()
         for line in error_lines
         if "ERROR" in line
     ]
@@ -54,11 +55,31 @@ def export_summary(summary, output_path, format="txt"):
         print(f"❌ Error exporting summary: {e}")
 
 def main():
-    log_file_path = "logs/sample.log"  # Change if needed
-    output_file_path = "output/summary.txt"  # Default output
+    parser = argparse.ArgumentParser(description="Log Analyzer CLI Tool")
+    parser.add_argument(
+        "--file",
+        type=str,
+        default="logs/sample.log",
+        help="Path to the log file to analyze"
+    )
+    parser.add_argument(
+        "--format",
+        type=str,
+        choices=["txt", "json"],
+        default="txt",
+        help="Export format for the summary"
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        default="output/summary.txt",
+        help="Path to export the summary"
+    )
+
+    args = parser.parse_args()
 
     # Step 1: Read log file
-    lines = read_log_file(log_file_path)
+    lines = read_log_file(args.file)
     if not lines:
         return
 
@@ -66,7 +87,7 @@ def main():
     summary = analyze_logs(lines)
 
     # Step 3: Export results
-    export_summary(summary, output_file_path, format="txt")
+    export_summary(summary, args.output, args.format) 
 
 if __name__ == "__main__":
     main()
