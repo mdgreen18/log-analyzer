@@ -26,7 +26,9 @@ Results can be exported as `.txt` or `.json`.
 git clone https://github.com/mdgreen18/log-analyzer.git
 cd log-analyzer
 
-# 📂 Project Structure
+---
+
+## 📂 Project Structure
 
 log-analyzer/
 │
@@ -39,8 +41,9 @@ log-analyzer/
 ├── requirements.txt           # Optional dependencies list
 └── README.md
 
+---
 
-# 🛠 Development Notes
+## 🛠 Development Notes
 
 * This project is part of my Python learning journey focused on:
 
