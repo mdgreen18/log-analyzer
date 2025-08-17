@@ -30,7 +30,7 @@ cd log-analyzer
 ---
 
 ## 📂 Project Structure
-```perl
+```bash
 log-analyzer/
 │
 ├── logs/                     # Sample log files
