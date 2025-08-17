@@ -30,7 +30,7 @@ cd log-analyzer
 ---
 
 ## 📂 Project Structure
-
+```perl
 log-analyzer/
 │
 ├── logs/                     # Sample log files
@@ -41,6 +41,7 @@ log-analyzer/
 ├── log_analyzer.py            # Main CLI app
 ├── requirements.txt           # Optional dependencies list
 └── README.md
+```
 
 ---
 
