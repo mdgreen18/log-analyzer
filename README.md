@@ -25,6 +25,7 @@ Results can be exported as `.txt` or `.json`.
 ```bash
 git clone https://github.com/mdgreen18/log-analyzer.git
 cd log-analyzer
+```
 
 ---
 
