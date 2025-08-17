@@ -6,18 +6,24 @@ from collections import Counter
 def read_log_file(file_path):
     """Reads a log file and returns a list of lines."""
     try:
-        with open(file_path, "r") as file:
-            return file.readlines()
+        with open(file_path, "r", encoding="utf-16") as file:
+            lines = [line.strip() for line in file if line.strip()] # remove blank lines
+        return lines
     except FileNotFoundError:
         print(f"❌ File not found: {file_path}")
         return []
+    except UnicodeError:
+        # fallback if not UTF-16
+        with open(file_path, "r", encoding="utf-8") as file:
+            lines = [line.strip() for line in file if line.strip()]
+        return lines
     except Exception as e:
         print(f"❌ Error reading file: {e}")
         return []
 
 def analyze_logs(lines):
     """Analyzes log lines and returns summary stats."""
-    total_lines = len(lines)
+    total_lines = len(lines) 
     error_lines = [line for line in lines if "ERROR" in line]
     error_count = len(error_lines)
 
@@ -82,7 +88,7 @@ def main():
     lines = read_log_file(args.file)
     if not lines:
         return
-
+    
     # Step 2: Analyze logs
     summary = analyze_logs(lines)
 
