@@ -21,7 +21,7 @@ def read_log_file(file_path):
         print(f"❌ Error reading file: {e}")
         return []
 
-def analyze_logs(lines):
+def analyze_logs(lines, top_n=None):
     """Analyzes log lines and returns summary stats."""
     total_lines = len(lines) 
     error_lines = [line for line in lines if "ERROR" in line]
@@ -34,6 +34,15 @@ def analyze_logs(lines):
         if "ERROR" in line
     ]
 
+    # Count errors
+    error_counts = Counter(error_messages)
+
+    # Apply top N if argument is provided
+    if top_n:
+        error_counts = dict(error_counts.most_common(top_n)
+    else:
+        error_counts = dict(error_counts)
+
     most_common_error = None
     if error_messages:
         most_common_error, _ = Counter(error_messages).most_common(1)[0]
@@ -41,7 +50,8 @@ def analyze_logs(lines):
     return {
         "total_lines": total_lines,
         "error_count": error_count,
-        "most_common_error": most_common_error
+        "most_common_error": most_common_error,
+        "error_counts": error_counts
     }
 
 def export_summary(summary, output_path, format="txt"):
@@ -81,6 +91,12 @@ def main():
         default="output/summary.txt",
         help="Path to export the summary"
     )
+    parser.add_argument(
+        "--top",
+        type=int,
+        default=None,
+        help="Show only the top N most common errors"
+    )
 
     args = parser.parse_args()
 
@@ -90,7 +106,7 @@ def main():
         return
     
     # Step 2: Analyze logs
-    summary = analyze_logs(lines)
+    summary = analyze_logs(lines, top_n=args.top)
 
     # Step 3: Export results
     export_summary(summary, args.output, args.format) 
